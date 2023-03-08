@@ -15,5 +15,5 @@ const decodeToken = (token) => {
   if (!decoded) return null;
   return decoded;
 };
-
-module.exports = { generateToken, decodeToken };
+const JWTUtils = { generateToken, decodeToken };
+module.exports = JWTUtils;
