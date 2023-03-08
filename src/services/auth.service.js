@@ -1,6 +1,6 @@
 const db = require('../database/models');
 const { encryptPassword, comparePassword } = require('../utils/Hashing');
-const { generateToken } = require('../utils/JWT');
+const { generateToken, decodeToken } = require('../utils/JWT');
 
 const register = async (username, password) => {
   const foundUser = await db.users.findOne({ where: { username } });
@@ -28,6 +28,20 @@ const login = async (username, password) => {
   return token;
 };
 
-const AuthService = { register, login };
+const validate = async (token) => {
+  const decodedToken = decodeToken(token);
+  if (!decodedToken) {
+    throw new Error('Invalid token');
+  }
+  console.log(decodedToken);
+  const username = decodedToken.user;
+  const foundUserWithToken = await db.users.findOne({
+    where: { username },
+    attributes: ['id', 'username'],
+  });
+  return foundUserWithToken;
+};
+
+const AuthService = { register, login, validate };
 
 module.exports = AuthService;

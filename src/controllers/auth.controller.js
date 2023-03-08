@@ -19,6 +19,19 @@ const loginUser = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+const validateToken = async (req, res) => {
+  try {
+    const authHeaders = req.headers['authorization'];
+    if (!authHeaders) {
+      res.status(401).json({ error: 'No token provided' });
+    }
+    const token = authHeaders && authHeaders.split(' ')[1];
+    const user = await AuthServices.validate(token);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
-const AuthController = { registerUser, loginUser };
+const AuthController = { registerUser, loginUser, validateToken };
 module.exports = AuthController;
