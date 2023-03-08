@@ -1,7 +1,7 @@
 const { createClient } = require('redis');
 const config = {
-  socker: {
-    host: 'http://localhost',
+  socket: {
+    host: 'redis',
     port: 6379,
   },
 };
