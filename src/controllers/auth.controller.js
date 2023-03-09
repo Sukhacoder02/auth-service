@@ -2,9 +2,9 @@ const AuthServices = require('./../services/auth.service');
 const { storeToken, getToken } = require('./../utils/Redis/index');
 
 const registerUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const user = await AuthServices.register(username, password);
+    const user = await AuthServices.register(email, password);
     return res.status(201).json(user);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -13,9 +13,9 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const token = await AuthServices.login(username, password);
-    await storeToken(token, username);
+    const { email, password } = req.body;
+    const token = await AuthServices.login(email, password);
+    await storeToken(token, email);
     res.status(200).json({ token });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -29,8 +29,8 @@ const validateToken = async (req, res) => {
     }
     const token = authHeaders && authHeaders.split(' ')[1];
     const user = await AuthServices.validate(token);
-    const username = await getToken(token);
-    if (!username) {
+    const email = await getToken(token);
+    if (!email) {
       res.status(401).json({ error: 'Invalid token' });
     } else {
       res.status(200).json(user);

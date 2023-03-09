@@ -12,15 +12,15 @@ client.connect().then(() => {
   console.log('Redis client connected');
 });
 
-const storeToken = async (token, username) => {
-  await client.set(token, username, {
+const storeToken = async (token, email) => {
+  await client.set(token, email, {
     EX: 60 * 60 * 24 * 7, // 7 days
   });
 };
 
 const getToken = async (token) => {
-  const username = await client.get(token);
-  return username;
+  const email = await client.get(token);
+  return email;
 };
 
 const RedisServices = { storeToken, getToken };
