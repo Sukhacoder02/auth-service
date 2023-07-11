@@ -10,4 +10,4 @@ RUN cd /app ; npm install
 
 COPY . /app
 WORKDIR /app
-ENTRYPOINT [ "npm","start" ]
+ENTRYPOINT [ "npm","run","dev" ]
