@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 const router = require('./routes/auth.routes');
-const PORT = 1111;
+const PORT = process.env.PORT || 1111;
 
 const app = express();
 app.use(express.json());
